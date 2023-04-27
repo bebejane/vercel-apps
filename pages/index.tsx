@@ -31,7 +31,7 @@ const query = async (path: string, params: any = {}) => {
 
   const qs = Object.keys(params).map(k => `${k}=${params[k]}`).join('&')
   const req = `${endpoint}${path}?${qs}`
-  const res = await fetch(req, { headers: { 'authorization': `Bearer ${process.env.VERCEL_API_TOKEN}` } })
+  const res = await fetch(req, { headers: { 'authorization': `Bearer ${process.env.API_TOKEN_VERCEL}` } })
   const data = await res.json()
   return data[Object.keys(data).find(k => k !== 'pagination') as string]
 
@@ -43,7 +43,7 @@ const teams = async () => query('/v2/teams')
 
 export async function getStaticProps() {
 
-  const data: any[] = await projects(process.env.VERCEL_TEAM_ID as string)
+  const data: any[] = await projects(process.env.TEAM_ID_VERCEL as string)
   const dataHobby: any[] = await projects()
 
   const sites = data.concat(dataHobby)
