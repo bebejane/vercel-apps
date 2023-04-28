@@ -3,9 +3,10 @@ import styles from '@/styles/Home.module.scss'
 
 type Props = {
   sites: { name: string, url: string }[]
+  site: string
 }
 
-export default function Home({ sites }: Props) {
+export default function Home({ sites, site }: Props) {
   return (
     <>
       <Head>
@@ -18,6 +19,7 @@ export default function Home({ sites }: Props) {
         {sites.map(({ name, url }) =>
           <a href={url} key={name}>{name}</a>
         )}
+        <div>{site}</div>
       </main>
     </>
   )
@@ -53,7 +55,7 @@ export async function getStaticProps() {
     .filter((el) => !el.name.includes('bebejane'))
 
   return {
-    props: { data, sites },
+    props: { data, sites, site: process.env.VERCEL_URL },
     revalidate: 30
   }
 }
