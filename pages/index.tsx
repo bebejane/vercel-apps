@@ -19,7 +19,6 @@ export default function Home({ sites, site }: Props) {
         {sites.map(({ name, url }) =>
           <a href={url} key={name}>{name}</a>
         )}
-        <div>{site}</div>
       </main>
     </>
   )
@@ -55,7 +54,7 @@ export async function getStaticProps() {
     .filter((el) => !el.name.includes('bebejane'))
 
   return {
-    props: { data, sites, site: process.env.VERCEL_URL },
+    props: { data, sites },
     revalidate: 30
   }
 }
