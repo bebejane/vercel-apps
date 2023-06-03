@@ -6,7 +6,8 @@ type Props = {
   site: string
 }
 
-export default function Home({ sites, site }: Props) {
+export default function Home({ sites }: Props) {
+
   return (
     <>
       <Head>
@@ -38,23 +39,19 @@ const query = async (path: string, params: any = {}) => {
 
 }
 
-const aliases = async (teamId: string) => query('/v4/aliases', { teamId, limit: 100 })
-const projects = async (teamId?: string) => query('/v9/projects', { teamId, limit: 100 })
-const teams = async () => query('/v2/teams')
-
 export async function getStaticProps() {
 
-  const data: any[] = await projects(process.env.TEAM_ID_VERCEL as string)
-  const dataHobby: any[] = await projects()
+  const data: any[] = await query('/v9/projects', { teamId: process.env.TEAM_ID_VERCEL, limit: 100 })
+  const dataHobby: any[] = await query('/v9/projects', { limit: 100 })
 
   const sites = data.concat(dataHobby)
-    .map((el) => ({ name: el.name, url: `https://${el.targets.production?.alias[0]}` }))
+    .map((el) => ({ name: el.name.replaceAll('-', ' '), url: `https://${el.targets.production?.alias[0]}` }))
     .filter((el) => !el.name.includes('datocms'))
     .filter((el) => !el.name.includes('plugin'))
     .filter((el) => !el.name.includes('bebejane'))
 
   return {
-    props: { data, sites },
-    revalidate: 30
+    props: { sites },
+    revalidate: 10
   }
 }
