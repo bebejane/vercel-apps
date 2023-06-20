@@ -2,7 +2,7 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.scss'
 
 type Props = {
-  sites: { name: string, url: string }[]
+  sites: { name: string, url: string, vercel: string }[]
   site: string
 }
 
@@ -17,8 +17,11 @@ export default function Home({ sites }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {sites.map(({ name, url }) =>
-          <a href={url} key={name}>{name}</a>
+        {sites.map(({ name, url, vercel }, idx) =>
+          <div key={idx}>
+            <a href={url} key={name} target="_blank">{name}</a>
+            <a className={styles.vercel} href={vercel} target="_blank">V</a>
+          </div>
         )}
       </main>
     </>
@@ -42,13 +45,17 @@ const query = async (path: string, params: any = {}) => {
 export async function getStaticProps() {
 
   const data: any[] = await query('/v9/projects', { teamId: process.env.TEAM_ID_VERCEL, limit: 100 })
-  const dataHobby: any[] = await query('/v9/projects', { limit: 100 })
 
-  const sites = data.concat(dataHobby)
-    .map((el) => ({ name: el.name.replaceAll('-', ' '), url: `https://${el.targets.production?.alias[0]}` }))
+  const sites = data
+    .map((el) => ({
+      name: el.name.replaceAll('-', ' '),
+      url: `https://${el.targets.production?.alias[0]}`,
+      vercel: `https://vercel.com/konst-och-teknik/${el.name}`,
+    }))
     .filter((el) => !el.name.includes('datocms'))
     .filter((el) => !el.name.includes('plugin'))
     .filter((el) => !el.name.includes('bebejane'))
+
 
   return {
     props: { sites },

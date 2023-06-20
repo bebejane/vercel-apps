@@ -1,4 +1,5 @@
 .main {
+  --btn-height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -7,6 +8,12 @@
   min-height: 100vh;
   font-family: 'Times New Roman', Times, serif;
 
+  div {
+    display: flex;
+    flex-direction: row;
+    max-width: 500px;
+    width: 500px;
+  }
 
   a {
     --color: #a0abca;
@@ -14,15 +21,22 @@
     max-width: 500px;
     border: 1px solid var(--color);
     padding: 1rem;
+    min-height: var(--btn-height);
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     text-transform: uppercase;
+    margin-right: 0.3rem;
+    flex: 1 1 auto;
 
     @media (min-width: 768px) {
       &:hover {
         background-color: var(--color);
         color: #000;
       }
+    }
+
+    &.vercel {
+      flex: 0 0;
     }
 
     &:active {
