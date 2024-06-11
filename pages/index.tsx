@@ -20,7 +20,6 @@ export default function Home({ sites }: Props) {
         {sites.map(({ name, url, vercel }, idx) =>
           <div key={idx}>
             <a href={url} key={name} target="_blank">{name}</a>
-            <a className={styles.vercel} href={vercel} target="_blank">V</a>
           </div>
         )}
       </main>
