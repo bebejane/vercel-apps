@@ -12,6 +12,7 @@
     "@types/node": "18.16.1",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
+    "date-fns": "^4.1.0",
     "dato-nextjs-utils": "github:bebejane/dato-nextjs-utils",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
